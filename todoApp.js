@@ -14,5 +14,20 @@ class ToDo{
 }
 
 class Project{
-    
+    constructor(name){
+        this.name = name;
+        this.todos= [];
+    }
+
+    addTodo(todo){
+        this.todos.push(todo);
+    }
+
+    removeTodo (todoId){
+        this.todos = this.todos.filter(
+            t => t.id !== todoId);
+        
+    }
 }
+
+const defaultProject = new Project("My Todos");
