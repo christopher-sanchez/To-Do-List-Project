@@ -1,3 +1,4 @@
+import {format, isToday, isPast} from 'date-fns';
 class ToDo{
     constructor(title, description,dueDate,priority){
         this.title = title;
@@ -31,3 +32,17 @@ class Project{
 }
 
 const defaultProject = new Project("My Todos");
+
+const todo = {
+    dueDate: new Date(2025,0,15)
+};
+
+// Format date nicely
+console.log(format(todo.dueDate,'MMM dd, yyyy'));
+// "Jan 15, 2025"
+
+// Check if overdue
+if (isPast(todo.dueDate)){
+    console.log('Overdue!');
+}
+
