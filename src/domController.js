@@ -106,4 +106,25 @@ document.getElementById('todo-modal').classList.remove('open');
 document.getElementById('todo-form').reset();
 }
 
+// intialize DOM
+function initDOM(projects){
+    let activeProject = projects[0];
+    renderProject(projects, activeProject, (project) => {
+        activeProject = project;
+        renderProject(projects, activeProject, arguments.callee);
+        renderToDos(activeProject);
+    });
+    renderToDos(activeProject);
+
+    // Add new todo button
+    document.getElementById('add-todo-btn').addEventListener('click', () => {
+        openModal(null, activeProject);
+    });
+
+    // Close modal 
+    document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+}
+
+export {initDOM};
+
 
