@@ -1,3 +1,4 @@
+import { fr } from 'date-fns/locale';
 import {ToDO,Project} from './todoApp.js';
 import {format, isPast, isToday} from 'date-fns';
 
@@ -60,3 +61,49 @@ function renderToDos(project){
         container.appendChild(card);
     });
 }
+
+// Modal for add/edit todo
+function openModal(existingTodo = null, project){
+    const modal = document.getElementById('todo-modal');
+    const form = document.getElementById('todo-form');
+
+    // If editing, prefill the form
+    if (existingTodo){
+        form.title.value = existingTodo.title;
+        form.description.value = existingTodo.description;
+        form.dueDate.value = format(new Date(existingTodo.dueDate), 'yyyy-MM-dd');
+        form.priority.value = existingTodo.priority;
+    } else {
+        form.reset();
+    }
+
+    modal.classList.add('open');
+
+    form.onsubmit = (e) => {
+        e.preventDefault();
+         if (existingTodo){
+            existingTodo.title = form.title.value;
+            existingTodo.description = form.description.value;
+            existingTodo.dueDate = new Date(form.dueDate.value);
+            existingTodo.priority = form.priority.value;
+        } else {
+            // make new todo
+            const newTodo = new ToDO(
+                form.title.value,
+                form.description.value,
+                new Date(form.dueDate.value),
+                form.priority.value
+            );
+            project.addToDo(newTodo);
+        }
+        closeModal();
+        renderToDos(project);
+    };
+}
+
+function closeModal(){
+document.getElementById('todo-modal').classList.remove('open');
+document.getElementById('todo-form').reset();
+}
+
+
