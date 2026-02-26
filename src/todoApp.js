@@ -1,6 +1,7 @@
-import {format, isToday, isPast} from 'date-fns';
-class ToDo{
+import { format, isToday, isPast } from 'date-fns';
+export class ToDo{
     constructor(title, description,dueDate,priority){
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -14,7 +15,7 @@ class ToDo{
     }
 }
 
-class Project{
+export class Project{
     constructor(name){
         this.name = name;
         this.todos= [];
