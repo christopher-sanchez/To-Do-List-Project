@@ -1,10 +1,11 @@
-import { fr } from 'date-fns/locale';
+
 import {ToDo,Project} from './todoApp.js';
 import {format, isPast, isToday} from 'date-fns';
 
 // project sidebar 
 function renderProject(projects,activeProject, OnProjectClick){
-    const sidebar = document.querySelector('project-list');
+    console.log(document.getElementById('project-list'));
+    const sidebar = document.getElementById('project-list');
     sidebar.innerHTML = '';
     projects.forEach(project => {
         const li = document.createElement('li');
@@ -49,13 +50,13 @@ function renderToDos(project){
 
         // delete todo
         card.querySelector('.delete-btn').addEventListener('click', () => {
-            project.removeToDo(todo);
+            project.removeToDo(todo.id);
             renderToDos(project);
         });
 
         // edit todo
         card.querySelector('.edit-btn').addEventListener('click', () => {
-            openModel(todo, project);
+            openModal(todo, project);
         });
 
         container.appendChild(card);
@@ -65,6 +66,7 @@ function renderToDos(project){
 // Modal for add/edit todo
 function openModal(existingTodo = null, project){
     const modal = document.getElementById('todo-modal');
+    modal.style.display = 'block';
     const form = document.getElementById('todo-form');
 
     // If editing, prefill the form
@@ -88,13 +90,13 @@ function openModal(existingTodo = null, project){
             existingTodo.priority = form.priority.value;
         } else {
             // make new todo
-            const newTodo = new ToDO(
+            const newTodo = new ToDo(
                 form.title.value,
                 form.description.value,
                 new Date(form.dueDate.value),
                 form.priority.value
             );
-            project.addToDo(newTodo);
+            project.addTodo(newTodo);
         }
         closeModal();
         renderToDos(project);
@@ -102,27 +104,39 @@ function openModal(existingTodo = null, project){
 }
 
 function closeModal(){
-document.getElementById('todo-modal').classList.remove('open');
+document.getElementById('todo-modal').style.display = 'none';
 document.getElementById('todo-form').reset();
 }
 
 // intialize DOM
 function initDOM(projects){
     let activeProject = projects[0];
-    renderProject(projects, activeProject, (project) => {
+
+    function onProjectClick(project){
         activeProject = project;
-        renderProject(projects, activeProject, arguments.callee);
+        renderProject(projects, activeProject, onProjectClick);
         renderToDos(activeProject);
-    });
+    }
+
+    renderProject(projects, activeProject, onProjectClick);
     renderToDos(activeProject);
 
-    // Add new todo button
     document.getElementById('add-todo-btn').addEventListener('click', () => {
         openModal(null, activeProject);
     });
 
-    // Close modal 
     document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+
+   
+    document.getElementById('add-project').addEventListener('click', () => {
+        const name = prompt('Project name:');
+        if(name){
+            projects.push(new Project(name));
+            activeProject = projects[projects.length - 1];
+            renderProject(projects, activeProject, onProjectClick);
+            renderToDos(activeProject);
+        }
+    });
 }
 
 export {initDOM};
