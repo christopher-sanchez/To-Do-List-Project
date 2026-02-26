@@ -1,5 +1,5 @@
 import { fr } from 'date-fns/locale';
-import {ToDO,Project} from './todoApp.js';
+import {ToDo,Project} from './todoApp.js';
 import {format, isPast, isToday} from 'date-fns';
 
 // project sidebar 

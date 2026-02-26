@@ -13,13 +13,33 @@
         <h1>To-Do List</h1>
 
         <nav>
+            <ul id="project-list"></ul>
             <button id="add-project">Add Project</button>
-            <button id="add-todos">Add Todo</button>
-            <button id="view-all">View All Todos</button>
-            <button id="remove-todo">Remove Todo</button>
-            
         </nav>
     </header>
+    <main>
+        <h2 id="project-title"></h2>
+        <button id = "add-todo-btn">Add To-Do</button>
+            <ul id="todo-list"></ul>
+    </main>
+
+    <!-- Modal for adding/editing todos -->
+     <div id="todo-modal" style="display:none;">
+        <form id="todo-form">
+        <input name="title" placeholder="Title" required/>
+        <input name="description" placeholder="Description"/>
+        <input name="dueDate" type="date" required/>
+        <select name="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button type="submit">Save</button>
+        <button type="button" id="close-modal-btn">Cancel</button>
+    </form>
+     </div>
     
+     <script src="dist/main.js"></script>
+     
 </body>
 </html>
