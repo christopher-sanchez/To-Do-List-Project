@@ -34,9 +34,4 @@ module.exports = {
   devServer: {
     watchFiles:["./src/template.html"],
   },
-plugins:[
-  new HtmlWebpackPlugin({
-    template:"./src/template.html",
-  }),
-],
 };

@@ -22,7 +22,8 @@ function renderToDos(project){
     container.innerHTML = '';
     project.todos.forEach(todo => {
         const card = document.createElement('div');
-        card.classList.add('todo-card', todo.priority, todo.completed ? 'completed' : '');
+        card.classList.add('todo-card', todo.priority);
+        if(todo.completed) card.classList.add('completed');
 
         // due date satus
         let dateLabel = format(new Date(todo.dueDate), 'MMM d, yyyy');
@@ -50,7 +51,7 @@ function renderToDos(project){
 
         // delete todo
         card.querySelector('.delete-btn').addEventListener('click', () => {
-            project.removeToDo(todo.id);
+            project.removeTodo(todo.id);
             renderToDos(project);
         });
 
